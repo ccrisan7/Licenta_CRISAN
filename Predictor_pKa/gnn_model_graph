@@ -1,0 +1,45 @@
+digraph {
+	{
+		rank=same
+		input [label="Input
+(9 features)" fillcolor=lightblue shape=box style=filled]
+		conv_1 [label="LayerNorm
+(48)" fillcolor=lightblue shape=box style=filled]
+		conv_2 [label="LayerNorm
+(48)" fillcolor=lightblue shape=box style=filled]
+		global_pool [label="Dropout
+(p=0.35)" fillcolor=lightblue shape=box style=filled]
+		output [label="Linear
+(48 -> 1)" fillcolor=lightblue shape=box style=filled]
+	}
+	{
+		rank=same
+		encoder_relu [label="Linear
+(9 -> 48)" fillcolor=lightblue shape=box style=filled]
+		relu_1 [label="GCNConv
+(48 -> 48)" fillcolor=lightblue shape=box style=filled]
+		relu_2 [label="GCNConv
+(48 -> 48)" fillcolor=lightblue shape=box style=filled]
+		regression_relu [label="Global Mean Pooling" fillcolor=lightblue shape=box style=filled]
+	}
+	{
+		rank=same
+		encoder_layernorm [label=ReLU fillcolor=lightblue shape=box style=filled]
+		dropout_1 [label=ReLU fillcolor=lightblue shape=box style=filled]
+		dropout_2 [label=ReLU fillcolor=lightblue shape=box style=filled]
+		regression_linear [label=ReLU fillcolor=lightblue shape=box style=filled]
+	}
+	input -> encoder_relu
+	encoder_relu -> encoder_layernorm
+	encoder_layernorm -> conv_1
+	conv_1 -> relu_1
+	relu_1 -> dropout_1
+	dropout_1 -> conv_2
+	conv_2 -> relu_2
+	relu_2 -> dropout_2
+	dropout_2 -> global_pool
+	global_pool -> regression_relu
+	regression_relu -> regression_linear
+	regression_linear -> output
+	nodesep=0.5 ranksep=0.6
+}
