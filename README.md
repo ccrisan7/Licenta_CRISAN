@@ -1,4 +1,4 @@
-#Licență Crișan
+# Licență Crișan Cristian
 
 Nume: Crișan
 Prenume: Cristian
